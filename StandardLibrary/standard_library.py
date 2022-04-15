@@ -1,8 +1,8 @@
 # standard_library.py
 """Python Essentials: The Standard Library.
-<Name>
-<Class>
-<Date>
+<Name>Prince Agyei Tuffour
+<Class> MTH 520 Models and Methods of Applied Mathematics
+<Date> April 15
 """
 
 
@@ -11,6 +11,7 @@ def prob1(L):
     """Return the minimum, maximum, and average of the entries of L
     (in that order).
     """
+    return min(L), max(L), (sum(L)/len(L))
     raise NotImplementedError("Problem 1 Incomplete")
 
 
