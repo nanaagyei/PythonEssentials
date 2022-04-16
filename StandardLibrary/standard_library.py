@@ -85,24 +85,34 @@ def power_set(A):
 # Problem 5: Implement shut the box.
 def shut_the_box(player, timelimit):
     """Play a single game of shut the box."""
-    if (len(sys.argv) != 3):
-        print("System failure! Unable to start game. Please enter exactly three arguments including file name, player name, and time limit.")
-    else:
-        numbers = [i for i in range(1, 10)]
-        while numbers != []:
-            print("Numbers left: ", numbers)
-            input("Please press enter to roll the dice: ")
-            rolls = [random.randint(1,6), random.randint(1,6)] #Stores a list of two random values between 1 and 6, inclusive
-            if sum(numbers) <= 6:
-                roll = random.choice(rolls)
-            else:
-                roll = sum(rolls)
+    numbers = [i for i in range(1, 10)]
+    while numbers != []:
+        print("Numbers left: ", numbers)
+        input("Please press enter to roll the dice: ")
+        rolls = [random.randint(1,6), random.randint(1,6)] #Stores a list of two random values between 1 and 6, inclusive
+        if sum(numbers) <= 6:
+            roll = random.choice(rolls)
+            print("Roll: ", roll)
+        else:
+            roll = sum(rolls)
+            print("Roll: ", roll)
+        if box.isvalid(roll, numbers) == True:
             eliminate = input("Numbers to elimiate: ")
             while box.parse_input(eliminate, numbers) == [] or box.isvalid(roll, numbers) == False:
                 eliminate = input("Please enter a valid input (Please separate with space): ")
             else:
                 numbers = [x for x in numbers if x not in box.parse_input(eliminate, numbers)]
         else:
+            print("Game over!")
             print("Score for " + str(player) + ": ", sum(numbers), " points")
             print("Time played: ")
-            print("Congratulations!! You shut the box")
+            print("Better luck next time")
+    else:
+        print("Score for " + str(player) + ": ", sum(numbers), " points")
+        print("Time played: ")
+        print("Congratulations!! You shut the box")
+
+if (len(sys.argv) != 3):
+        print("System failure! Unable to start game. Please enter exactly three arguments including file name, player name, and time limit.")
+else:
+    shut_the_box(sys.argv[1], sys.argv[2])
