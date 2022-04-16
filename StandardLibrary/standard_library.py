@@ -89,6 +89,7 @@ def shut_the_box(player, timelimit):
     while numbers != []:
         print("Numbers left: ", numbers)
         input("Please press enter to roll the dice: ")
+        start = time.perf_counter()
         rolls = [random.randint(1,6), random.randint(1,6)] #Stores a list of two random values between 1 and 6, inclusive
         if sum(numbers) <= 6:
             roll = random.choice(rolls)
@@ -104,12 +105,16 @@ def shut_the_box(player, timelimit):
                 numbers = [x for x in numbers if x not in box.parse_input(eliminate, numbers)]
         else:
             print("Game over!")
+            end = time.perf_counter()
+            new_timelimit = float(timelimit) - (end - start)
             print("Score for " + str(player) + ": ", sum(numbers), " points")
-            print("Time played: ")
+            print(f"Time played: {float(timelimit) - new_timelimit}")
             print("Better luck next time")
+        new_timelimit = float(timelimit) - (end - start)
+        print(f"Seconds left: {round(new_timelimit, 2)}")
     else:
         print("Score for " + str(player) + ": ", sum(numbers), " points")
-        print("Time played: ")
+        print(f"Time played: {float(timelimit) - new_timelimit}")
         print("Congratulations!! You shut the box")
 
 if (len(sys.argv) != 3):
