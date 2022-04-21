@@ -45,7 +45,7 @@ def tax_liability(income):
     first_tax = 0
     second_tax = 0
     third_tax = 0
-    if income <= 9785:
+    if income <= 9875:
         first_tax = 0.1 * income
     elif 9875.01 <= income <= 40125:
         first_tax = 0.1 * 9785
