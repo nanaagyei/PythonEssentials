@@ -98,6 +98,10 @@ def prob7(A):
                [ 0.        ,  1.        ,  0.        ],
                [ 0.33333333,  0.33333333,  0.33333333]])
     """
+    b = np.sum(A, axis=1)
+    row_division = b.reshape(np.size(b), 1)
+    row_stochastic_matrix = A/row_division
+    return row_stochastic_matrix
     raise NotImplementedError("Problem 7 Incomplete")
 
 #Problem 8
@@ -106,4 +110,23 @@ def prob8():
     adjacent numbers in the same direction (up, down, left, right, or
     diagonally) in the grid.
     """
+    grip = np.load("grip.npy")
+    ss = np.array([[int(x) for x in grip.split()][i:i+20] for i in range(0,400,20)]).reshape(20, 20)
+
+
+    #check right: row: 1 thru 20 (index 0:19); columns: 1 thru 16 (index 0:15)
+    mr = max(np.prod(ss[i,j:j+4]) for i in range(20) for j in range(16))
+
+    #check down: row: 1 thru 16 (index 0:15); columns: 1 thru 20 (index 0:19)
+    mc = max(np.prod(ss[i:i+4,j]) for i in range(16) for j in range(20))
+
+    #check right-down-diagonal: row: 1 thru 16 (index 0:15); columns: 1 thru 16 (index 0:15). row,col increments by 1 to go right-down-diagonal 
+    mx = max(np.prod([ss[i+k,j+k] for k in range(4)]) for i in range(16) for j in range(16))
+
+    #check left-down-diagonal: row: 1 thru 20 (index 0:19); columns: 4 thru 20 (index 3:19). row increments by 1 and col decrements by 1 to go right-down-diagonal
+    my = max(np.prod([ss[i+k,j-k] for k in range(4)]) for i in range(16) for j in range(3,20))
+
+    ans = max([mr,mc,mx,my])
+
+    return ans
     raise NotImplementedError("Problem 8 Incomplete")
