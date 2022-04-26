@@ -1,0 +1,23 @@
+04/26/22 22:48
+
+Problem 1 (10 points):
+Score += 10
+
+Problem 2 (10 points):
+Score += 10
+
+Problem 3 (10 points):
+Score += 10
+
+Problem 4 (10 points):
+	power_set(A) does not contain set() (the empty set)
+	power_set(A) does not contain set(A)
+TypeError: object of type 'itertools.chain' has no len()
+
+Code Quality (10 points):
+Score += 10
+
+Total score: 40/50 = 80.0%
+
+-------------------------------------------------------------------------------
+
