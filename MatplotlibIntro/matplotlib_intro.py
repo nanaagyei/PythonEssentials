@@ -1,10 +1,13 @@
 # matplotlib_intro.py
 """Python Essentials: Intro to Matplotlib.
-<Name>
-<Class>
-<Date>
+<Name> Prince Tuffour
+<Class> MTH 520 Methods and Models of Applied Mathematics
+<Date> April 28
 """
 
+from statistics import variance
+import numpy as np
+from matplotlib import pyplot as plt
 
 # Problem 1
 def var_of_means(n):
@@ -18,12 +21,19 @@ def var_of_means(n):
     Returns:
         (float) The variance of the means of each row.
     """
+    dist = np.random.normal(size=(n,n))
+    mean_arr = np.mean(dist, axis=1)
+    var_arr = np.var(mean_arr)
+    return var_arr
     raise NotImplementedError("Problem 1 Incomplete")
+
 
 def prob1():
     """Create an array of the results of var_of_means() with inputs
     n = 100, 200, ..., 1000. Plot and show the resulting array.
     """
+    y = np.array([var_of_means(i) for i in range(100, 1100, 100)])
+    return plt.plot(y), plt.show()
     raise NotImplementedError("Problem 1 Incomplete")
 
 
@@ -33,6 +43,13 @@ def prob2():
     [-2pi, 2pi]. Make sure the domain is refined enough to produce a figure
     with good resolution.
     """
+    x = np.linspace(-2*np.pi, 2*np.pi, 500)
+    plt.ion()
+    plt.plot(x, np.sin(x))
+    plt.plot(x, np.cos(x))
+    plt.plot(x, np.tan(x))
+    plt.ioff()
+    return plt.show()
     raise NotImplementedError("Problem 2 Incomplete")
 
 
@@ -44,6 +61,17 @@ def prob3():
         3. Set the range of the x-axis to [-2,6] and the range of the
            y-axis to [-6,6].
     """
+    x1 = np.linspace(-2, 1, 500)
+    f = lambda x: 1/(x-1)
+
+    x2 = np.linspace(1,6, 500)
+    plt.ion()
+    plt.plot(x1, f(x1), 'm--' , linewidth=4)
+    plt.plot(x2, f(x2), 'm--' , linewidth=4)
+    plt.xlim(-2,5)
+    plt.ylim(-6,6)
+    plt.ioff()
+    return plt.show()
     raise NotImplementedError("Problem 3 Incomplete")
 
 
@@ -89,3 +117,7 @@ def prob6():
         4. Add a colorbar to each subplot.
     """
     raise NotImplementedError("Problem 6 Incomplete")
+
+
+if __name__ == "__main__":
+    prob3()
