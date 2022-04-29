@@ -89,6 +89,25 @@ def prob4():
              2sin(x): blue dashed line.
             2sin(2x): magenta dotted line.
     """
+    x = np.linspace(0, 2*np.pi, 500)
+    ax1 = plt.subplot(221)
+    ax1.plot(x, np.sin(x), "g-")
+    plt.title("Plot of sin(x)")
+
+    ax2 = plt.subplot(222)
+    ax2.plot(x, np.sin(2*x), "r--")
+    plt.title("Plot of sin(2x)")
+
+    ax3 = plt.subplot(223)
+    ax3.plot(x, 2*np.sin(x), "b--")
+    plt.title("Plot of 2sin(x)")
+
+    ax4 = plt.subplot(224)
+    ax4.plot(x, 2*np.sin(2*x), "m:")
+    plt.title("Plot of 2sin(2x)")
+    plt.axis([0, 2*np.pi, -2, 2])
+    plt.suptitle("Different variations of sine function")
+    return plt.show()
     raise NotImplementedError("Problem 4 Incomplete")
 
 
@@ -116,8 +135,16 @@ def prob6():
         3. Choose a non-default color scheme.
         4. Add a colorbar to each subplot.
     """
+    x = np.linspace(-2*np.pi, 2*np.pi, 200)
+    y = x.copy()
+    X, Y = np.meshgrid(x, y)
+    Z = (np.sin(X)*np.sin(Y))/(X*Y)
+    plt.subplot(121)
+    plt.pcolormesh(X, Y, Z, cmap="inferno")
+    plt.colorbar()
+
+    plt.subplot(122)
+    plt.contour(X, Y, Z, 10, cmap="hot")
+    plt.colorbar()
+    return plt.show()
     raise NotImplementedError("Problem 6 Incomplete")
-
-
-if __name__ == "__main__":
-    prob3()
