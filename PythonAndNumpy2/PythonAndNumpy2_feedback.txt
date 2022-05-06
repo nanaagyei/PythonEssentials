@@ -1,0 +1,30 @@
+05/06/22 18:09
+
+Problem 1 (10 points):
+Score += 10
+
+Problem 2 (10 points):
+TypeError: slice indices must be integers or None or have an __index__ method
+
+Problem 3 (10 points):
+list_ops() failed
+	Correct response: "['fox', 'hawk', 'dog', 'bearhunter']"
+	Student response: "['fox', 'hawk', 'dog', 'bear', 'hunter']"
+Score += 0
+
+Problem 4 (5 points):
+Score += 5
+
+Problem 5 (5 points):
+Score += 5
+
+Problem 6 (5 points):
+Score += 5
+
+Code Quality (5 points):
+Score += 5
+
+Total score: 30/50 = 60.0%
+
+-------------------------------------------------------------------------------
+
