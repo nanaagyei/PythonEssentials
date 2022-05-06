@@ -18,9 +18,9 @@ def isolate(a, b, c, d, e):
 #Problem 2
 def first_half(string):
     if len(string) % 2 == 0:
-        return string[:(len(string)/2 +1)]
+        return string[:(int(len(string)/2) + 1)]
     else:
-        return string[:((len(string)+1)/2)]
+        return string[:int((len(string)+1)/2)]
     raise NotImplementedError("Problem 2 Incomplete")
 
 
@@ -38,7 +38,7 @@ def list_ops():
     entry.sort()
     entry.reverse()
     entry[entry.index("eagle")] = "hawk"
-    entry.append("hunter")
+    entry[-1] = entry[-1] + "hunter"
     return entry
     raise NotImplementedError("Problem 3 Incomplete")
 
@@ -130,3 +130,6 @@ def prob8():
 
     return ans
     raise NotImplementedError("Problem 8 Incomplete")
+
+if __name__ == "__main__":
+    print(list_ops())
