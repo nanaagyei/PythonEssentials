@@ -12,7 +12,7 @@
 
 import numpy as np
 from matplotlib import pyplot as plt
-
+from scipy import linalg as la
 
 # Problem 1
 def least_squares(A, b):
@@ -26,6 +26,10 @@ def least_squares(A, b):
     Returns:
         x ((n, ) ndarray): The solution to the normal equations.
     """
+    Q, R = la.qr(A, mode="economic")
+    b1 = (Q.T).dot(b)
+    x = la.solve_triangular(R, b1)
+    return x
     raise NotImplementedError("Problem 1 Incomplete")
 
 # Problem 2
@@ -34,6 +38,14 @@ def line_fit():
     index for the data in housing.npy. Plot both the data points and the least
     squares line.
     """
+    housing = np.load("housing.npy")
+    x, y = housing[:, 0], housing[:, 1]
+    X = np.vstack((x, np.ones(x.shape))).T
+    a, b = least_squares(X, y)
+    plt.plot(x, y, "k*", label="Data Points")
+    plt.plot(x, a * x + b, label="Line fit")
+    plt.legend(loc="upper left")
+    return plt.show()
     raise NotImplementedError("Problem 2 Incomplete")
 
 
@@ -43,6 +55,36 @@ def polynomial_fit():
     the year to the housing price index for the data in housing.npy. Plot both
     the data points and the least squares polynomials in individual subplots.
     """
+    housing = np.load("housing.npy")
+    x1, y = housing[:, 0], housing[:, 1]
+    x_axis = np.linspace(0, 17, 200)
+    # polynomial of degree 3
+    A = np.vander(x1, 4)
+    x = la.lstsq(A, y)[0]
+    f = np.poly1d(x)
+    plt.plot(x1, y, "k*", label="Data Points")
+    plt.plot(x_axis, f(x_axis), "b-", label="Deg 3")
+
+    #Polynomial of degree 6
+    B = np.vander(x1, 7)
+    v = la.lstsq(B, y)[0]
+    g = np.poly1d(v)
+    plt.plot(x_axis, g(x_axis), "g--", label="Deg 6")
+
+    #Polynomial of degree 9
+    C = np.vander(x1, 10)
+    w = la.lstsq(C, y)[0]
+    h = np.poly1d(w)
+    plt.plot(x_axis, h(x_axis), "r-", label="Deg 9")
+
+    #Polynomial of degree 12
+    D = np.vander(x1, 13)
+    z = la.lstsq(D, y)[0]
+    p = np.poly1d(z)
+    plt.plot(x_axis, p(x_axis), "k-", label="Deg 12")
+
+    plt.legend(loc="upper left")
+    return plt.show()
     raise NotImplementedError("Problem 3 Incomplete")
 
 
@@ -98,3 +140,6 @@ def qr_algorithm(A, N=50, tol=1e-12):
         ((n,) ndarray): The eigenvalues of A.
     """
     raise NotImplementedError("Problem 6 Incomplete")
+
+if __name__ == "__main__":
+    polynomial_fit()

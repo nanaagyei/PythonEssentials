@@ -47,7 +47,7 @@ def prob2():
     plt.ion()
     plt.plot(x, np.sin(x))
     plt.plot(x, np.cos(x))
-    plt.plot(x, np.tan(x))
+    plt.plot(x, np.arctan(x))
     plt.ioff()
     return plt.show()
     raise NotImplementedError("Problem 2 Incomplete")
@@ -148,3 +148,6 @@ def prob6():
     plt.colorbar()
     return plt.show()
     raise NotImplementedError("Problem 6 Incomplete")
+
+if __name__ =="__main__":
+    prob2()
