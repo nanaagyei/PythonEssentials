@@ -1,8 +1,8 @@
 # drazin.py
 """Volume 1: The Drazin Inverse.
-<Name>
-<Class>
-<Date>
+<Name>Prince Tuffour
+<Class>MTH 520 Methods & Models of Applied Mathematics
+<Date>May 11
 """
 
 import numpy as np
@@ -50,6 +50,16 @@ def is_drazin(A, Ad, k):
     Returns:
         (bool) True of Ad is the Drazin inverse of A, False otherwise.
     """
+    cond11 = np.matmul(A, Ad)
+    cond12 = np.matmul(Ad, A)
+    cond21 = np.matmul(np.linalg.matrix_power(A, k+1), Ad)
+    cond22 = np.linalg.matrix_power(A, k)
+    cond32 = np.matmul(np.matmul(Ad, A), Ad)
+    cond33 = Ad
+    if cond11.all() == cond12.all() and cond21.all() == cond22.all() and cond32.all() == cond33.all():
+        return True
+    else:
+        return False
     raise NotImplementedError("Problem 1 Incomplete")
 
 
@@ -63,6 +73,19 @@ def drazin_inverse(A, tol=1e-4):
     Returns:
        ((n,n) ndarray) The Drazin inverse of A.
     """
+    n, m = A.shape
+    f = lambda x: abs(x) > tol
+    g = lambda x: abs(x) <= tol
+    T1, Q1, k1 = la.schur(A, sort=f)
+    T2, Q2, k2 = la.schur(A, sort=g)
+    U = np.concatenate((Q1[:, :k1], Q2[:, :n-k1]), axis=1)
+    U_inv = np.linalg.inv(U)
+    V = np.matmul(np.matmul(U_inv, A), U)
+    Z = np.zeros((n,n))
+    if k1 != 0:
+        M_inv = np.linalg.inv(V[:k1,:k1])
+        Z[:k1, :k1] = M_inv
+    return np.matmul(np.matmul(U,Z), U_inv)
     raise NotImplementedError("Problem 2 Incomplete")
 
 
@@ -110,7 +133,7 @@ class LinkPredictor:
         Raises:
             ValueError: If node is not in the graph.
         """
-        raise NotImplementedError("Problem 5 Incomplete"
+        raise NotImplementedError("Problem 5 Incomplete")
 
 
     def add_link(self, node1, node2):
@@ -125,3 +148,4 @@ class LinkPredictor:
             ValueError: If either node1 or node2 is not in the graph.
         """
         raise NotImplementedError("Problem 5 Incomplete")
+
