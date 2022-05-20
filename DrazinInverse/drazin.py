@@ -88,6 +88,19 @@ def drazin_inverse(A, tol=1e-4):
     return np.matmul(np.matmul(U,Z), U_inv)
     raise NotImplementedError("Problem 2 Incomplete")
 
+#defining laplacian
+def laplacian(A):
+    """Compute the Laplacian matrix of the adjacency matrix A,
+    as well as the second smallest eigenvalue.
+
+    Parameters:
+        A ((n,n) ndarray) adjacency matrix for an undirected weighted graph.
+
+    Returns:
+        L ((n,n) ndarray): the Laplacian matrix of A
+    """
+    D = A.sum(axis=1)    # The degree of each vertex (either axis).
+    return np.diag(D) - A
 
 # Problem 3
 def effective_resistance(A):
@@ -100,6 +113,22 @@ def effective_resistance(A):
         ((n,n) ndarray) The matrix where the ijth entry is the effective
         resistance from node i to node j.
     """
+    L = laplacian(A)
+    n = A.shape[0]
+    I = np.identity(n)
+    R = np.zeros((n,n))
+
+    for i in range(n):
+        for j in range(n):
+            if i == j:
+                R[i,j] = 0
+                continue
+
+            Lj = np.copy(L)
+            Lj[j] = I[j]
+            LjD = drazin_inverse(Lj)
+            R[i,j] = LjD[i,i]
+    return R
     raise NotImplementedError("Problem 3 Incomplete")
 
 
