@@ -1,9 +1,12 @@
 # cvxpy_intro.py
 """Volume 2: Intro to CVXPY.
-<Name>
-<Class>
-<Date>
+<Name> Prince Tuffour
+<Class> MTH 520 Model & Methods of Applied Mathematics
+<Date> May 26
 """
+
+import cvxpy as cp
+import numpy as np
 
 
 def prob1():
@@ -21,6 +24,21 @@ def prob1():
         The optimizer x (ndarray)
         The optimal value (float)
     """
+    x = cp.Variable(3, nonneg=True)
+    c = np.array([2, 1, 3])
+    objective = cp.Minimize(c.T @ x)
+
+    #constraints
+    A = np.array([1, 2, 0])
+    B = np.array([0, 1, -4])
+    C = np.array([2, 10, 3])
+    P = np.eye(3)
+
+    constraints = [A @ x <= 3, B @ x <= 1, C @ x >= 12, P @ x >= 0]
+    problem = cp.Problem(objective, constraints)
+    
+    D = problem.solve()
+    return x.value, D
     raise NotImplementedError("Problem 1 Incomplete")
 
 
@@ -39,6 +57,17 @@ def l1Min(A, b):
         The optimizer x (ndarray)
         The optimal value (float)
     """
+    m,n = A.shape
+    x = cp.Variable(n, nonneg=True)
+    objective = cp.Minimize(cp.norm(x, 1))
+
+    constraints = [A @ x == b]
+
+    problem  = cp.Problem(objective, constraints)
+
+    C = problem.solve()
+
+    return x.value, C
     raise NotImplementedError("Problem 2 Incomplete")
 
 
@@ -51,6 +80,24 @@ def prob3():
         The optimizer x (ndarray)
         The optimal value (float)
     """
+    x = cp.Variable(6, nonneg=True)
+    c = np.array([4, 7, 6, 8, 8, 9])
+    objective = cp.Minimize(c.T @ x)
+
+    #constraints
+    A = np.array([1, 1, 0, 0, 0, 0])
+    B = np.array([0, 0, 1, 1, 0, 0])
+    C = np.array([0, 0, 0, 0, 1, 1])
+    D = np.array([1, 0, 1, 0, 1, 0])
+    E = np.array([0, 1, 0, 1, 0, 1])
+    P = np.eye(6)
+
+    constraints = [A @ x == 7, B @ x == 2, C @ x == 4, D @ x == 5, E @ x == 8, P @ x >= 0]
+
+    problem = cp.Problem(objective, constraints)
+    primal = problem.solve()
+
+    return x.value, primal
     raise NotImplementedError("Problem 3 Incomplete")
 
 
@@ -64,6 +111,16 @@ def prob4():
         The optimizer x (ndarray)
         The optimal value (float)
     """
+    Q = np.array([[3, 2, 1],
+                  [2, 4, 2],
+                  [1, 2, 3]])
+    r = np.array([3, 0, 1])
+    x = cp.Variable(3)
+    objective = cp.Minimize(0.5 * cp.quad_form(x, Q) + r.T @ x)
+    problem = cp.Problem(objective)
+    val = problem.solve()
+
+    return x.value, val
     raise NotImplementedError("Problem 4 Incomplete")
 
 
@@ -81,6 +138,19 @@ def prob5(A, b):
         The optimizer x (ndarray)
         The optimal value (float)
     """
+    m, n = A.shape
+    x = cp.Variable(n, nonneg=True)
+    objective = cp.Minimize(cp.norm(A @ x - b))
+
+    l1_norm = np.ones(n)
+    P = np.eye(n)
+
+    constraint = [l1_norm @ x == 1, P @ x >= 0]
+
+    problem = cp.Problem(objective, constraint)
+    C = problem.solve()
+
+    return x.value, C
     raise NotImplementedError("Problem 5 Incomplete")
 
 
@@ -97,3 +167,22 @@ def prob6():
         The optimal value (float)
     """	 
     raise NotImplementedError("Problem 6 Incomplete")
+
+
+
+if __name__ == "__main__":
+    print("#"*20 + "Problem 1" + "#"*20)
+    print(prob1())
+
+    A = np.array([[1, 2, 1, 1],
+                  [0, 3, -2, -1]])
+    
+    b = np.array([7, 4])
+    print("#"*20 + "Problem 2" + "#"*20)
+    print(l1Min(A, b))
+    print("#"*20 + "Problem 3" + "#"*20)
+    print(prob3())
+    print("#"*20 + "Problem 4" + "#"*20)
+    print(prob4())
+    print("#"*20 + "Problem 5" + "#"*20)
+    print(prob5(A, b))
