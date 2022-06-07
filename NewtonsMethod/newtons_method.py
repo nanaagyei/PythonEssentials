@@ -6,6 +6,7 @@
 """
 import math
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 # Problems 1, 3, and 5
@@ -89,6 +90,15 @@ def optimal_alpha(f, x0, Df, tol=1e-5, maxiter=15):
         (float): a value for alpha that results in the lowest number of
             iterations.
     """
+    a = np.linspace(0, 1, 100)[1:]
+    counts = np.array([])
+    for alpha in a:
+        x, bool, count = newton(f, x0, Df, tol=1e-5, maxiter=15, alpha=alpha)
+        counts = np.append(counts, count)
+    least_iter = a[np.argmin(counts)]
+    plt.plot(a, counts)
+    plt.show()
+    return least_iter
     raise NotImplementedError("Problem 4 Incomplete")
 
 
@@ -123,14 +133,14 @@ def plot_basins(f, Df, zeros, domain, res=1000, iters=15):
     raise NotImplementedError("Problem 7 Incomplete")
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
     # f = lambda x: math.exp(x) - 2
     # Df = lambda x: math.exp(x)
     # print(newton(f, 2, Df))
 
     # print(prob2(30, 20, 2000, 8000))
 
-    # f = lambda x: np.sign(x) * np.power(np.abs(x), 1./3)
+    f = lambda x: np.sign(x) * np.power(np.abs(x), 1./3)
 
-    # Df = lambda x: (1./3) * np.power(np.abs(x), -2./3)
-    # print(newton(f,0.01, Df))
+    Df = lambda x: (1./3) * np.power(np.abs(x), -2./3)
+    print(optimal_alpha(f,0.01, Df))
