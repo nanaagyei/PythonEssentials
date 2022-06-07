@@ -1,13 +1,15 @@
 # newtons_method.py
 """Volume 1: Newton's Method.
-<Name>
-<Class>
-<Date>
+<Name> Prince Tuffour
+<Class> MTH 520 Models and Methods of Applied Mathematics
+<Date> June 6, 2022
 """
+import math
+import numpy as np
 
 
 # Problems 1, 3, and 5
-def newton(f, x0, Df, tol=1e-5, maxiter=15, alpha=1.):
+def newton(f, x0, Df, tol=1e-5, maxiter=15, alpha=0.4):
     """Use Newton's method to approximate a zero of the function f.
 
     Parameters:
@@ -24,6 +26,16 @@ def newton(f, x0, Df, tol=1e-5, maxiter=15, alpha=1.):
         (bool): Whether or not Newton's method converged.
         (int): The number of iterations computed.
     """
+    count = 0
+    for k in range(maxiter):
+        x1 = x0 - alpha * (f(x0)/Df(x0))
+        if abs(x1-x0) < tol:
+            break
+        x0 = x1
+        count += 1
+    if count < maxiter:
+        return x0, True, count
+    return x0, False, count
     raise NotImplementedError("Problem 1 Incomplete")
 
 
@@ -46,6 +58,17 @@ def prob2(N1, N2, P1, P2):
     Returns:
         (float): the value of r that satisfies the equation.
     """
+    f = lambda r: P1 * ((1+r)**N1 - 1) - P2 * (1 - (1+r)**(-N2))
+    Df = lambda r: N1 * P1 * (1+r)**(N1-1) - N2* P2 * (1+r)**(-N2-1)
+    r0 = 0.1
+    maxiter = 15
+    tol = 1e-5
+    for k in range(maxiter):
+        r1 = r0 - (f(r0)/Df(r0))
+        if abs(r1-r0) < tol:
+            break
+        r0 = r1
+    return r0
     raise NotImplementedError("Problem 2 Incomplete")
 
 
@@ -98,3 +121,16 @@ def plot_basins(f, Df, zeros, domain, res=1000, iters=15):
         iters (int): The exact number of times to iterate Newton's method.
     """
     raise NotImplementedError("Problem 7 Incomplete")
+
+
+# if __name__ == "__main__":
+    # f = lambda x: math.exp(x) - 2
+    # Df = lambda x: math.exp(x)
+    # print(newton(f, 2, Df))
+
+    # print(prob2(30, 20, 2000, 8000))
+
+    # f = lambda x: np.sign(x) * np.power(np.abs(x), 1./3)
+
+    # Df = lambda x: (1./3) * np.power(np.abs(x), -2./3)
+    # print(newton(f,0.01, Df))

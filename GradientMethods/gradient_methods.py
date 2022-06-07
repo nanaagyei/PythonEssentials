@@ -6,6 +6,7 @@
 """
 
 
+import numpy as np
 # Problem 1
 def steepest_descent(f, Df, x0, tol=1e-5, maxiter=100):
     """Compute the minimizer of f using the exact method of steepest descent.
